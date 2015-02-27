@@ -41,10 +41,10 @@ var AspnetGenerator = yeoman.generators.Base.extend({
                     name: 'Class Library',
                     value: 'classlib'
                 },
-//                {
-//                    name: 'Unit test project',
-//                    value: 'unittest'
-//                }
+                {
+                    name: 'Unit test project',
+                    value: 'unittest'
+                }
             ]
         }];
 
@@ -254,11 +254,18 @@ var AspnetGenerator = yeoman.generators.Base.extend({
             	namespace: this.applicationName
             });
             break;
+        case 'unittest':
+            this.sourceRoot(path.join(__dirname, '../templates/projects/' + this.type));
+
+            this.template(this.sourceRoot() + '/sampletest.cs', this.applicationName + '/SampleTest.cs', {
+                namespace: this.applicationName
+            });
+
+            this.copy(this.sourceRoot() + '/project.json', this.applicationName + '/project.json');
+            break;
         case 'console':
         case 'classlib':
-        case 'unittest':
-            this.directory(this.type, this.applicationName);
-            break;
+        	this.directory(this.type, this.applicationName);
         default:
             this.log('Unknown project type');
         }
